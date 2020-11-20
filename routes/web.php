@@ -14,9 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('site');
+    return view('pages.site.index');
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Route::get('/personal', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => ['auth'], 'prefix' => '/personal'], static function () {
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('personal');
+//    Route::get('profile', 'User@index');
+});
